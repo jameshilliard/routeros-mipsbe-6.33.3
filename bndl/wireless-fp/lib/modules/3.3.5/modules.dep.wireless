@@ -1,0 +1,14 @@
+a9300_ahb:	a9300 flash
+wlan:	capwapglue packet_hook
+a5416_ahb:	a5416 flash
+a5212_pci:	a5212
+a5212:	wlan ath
+a5416_pci:	a5416 flash
+a9300:	wlan ath flash
+a5416:	wlan ath flash
+a9300_pci:	a9300 flash
+a5211:	ath wlan
+a5211_pci:	a5211
+ar9888_pci:	wlan ath flash
+capwap:	capwapglue ipv6stub
+ath:	wlan packet_hook

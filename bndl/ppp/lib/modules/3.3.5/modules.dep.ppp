@@ -1,0 +1,8 @@
+ppp_generic:	slhc
+ppp_async:	crc-ccitt ppp_generic
+ppp_deflate:	ppp_generic zlib_deflate zlib_inflate
+ppp_mppe:	ppp_generic
+pppox:	ppp_generic
+ppp_synctty:	ppp_generic
+pppoe:	ppp_generic pppox
+sstp:	ppp_generic

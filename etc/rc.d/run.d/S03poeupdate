@@ -1,0 +1,19 @@
+#!/bin/bash
+
+/sbin/insmod poe_v2 >/dev/log241 2>&1
+
+if [ -e /sys/module/poe_v2/parameters/ver_now ]; then
+    verNow=$(cat /sys/module/poe_v2/parameters/ver_now)
+    verNew=$(cat /sys/module/poe_v2/parameters/ver_new)
+
+    if [ $verNow -ne $verNew ]; then
+        /sbin/insmod -r poe_v2
+        /sbin/insmod poeupdate
+# cache program and data in RAM as NAND is locked during update
+	cat /nova/bin/poeupdatefw /etc/poeio.atflash > /dev/null
+        /nova/bin/poeupdatefw /etc/poeio.atflash
+        /sbin/insmod -r poeupdate
+	/sbin/insmod poe_v2
+	rm -f /rw/poe_version
+    fi
+fi

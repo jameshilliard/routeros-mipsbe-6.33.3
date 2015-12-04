@@ -1,0 +1,8 @@
+dlog_info '
+  /ipv6 firewall {
+    :put MANGLE
+    mangle print all
+    :put FILTER
+    filter print all
+  }
+'

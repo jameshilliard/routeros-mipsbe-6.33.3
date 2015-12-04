@@ -1,0 +1,18 @@
+dlog_info '
+  /interface bridge {
+    :put INTERFACE
+    print
+    :put PORT
+    port print
+    :put HOST
+    host print
+    :put FILTER
+    filter print all
+    filter print all stats
+    :put NAT
+    nat print all
+    nat print all stats
+    :put SETTINGS
+    settings print
+  }
+'

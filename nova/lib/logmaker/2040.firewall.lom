@@ -1,0 +1,12 @@
+dlog_info '
+  /ip firewall {
+    :put MANGLE
+    mangle print all
+    :put NAT
+    nat print all
+    :put FILTER
+    filter print all
+    :put TRACKING
+    connection tracking print
+  }
+'

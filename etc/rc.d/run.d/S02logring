@@ -1,0 +1,30 @@
+#!/bin/bash
+
+/sbin/insmod logring
+
+# put first 200 kbytes of logs in file
+
+if [ "$board" != "100" ]; then
+    catlog -f -n 50 </dev/null >/ram/startup.catlog 2>/dev/null &
+fi
+
+LOGS=/nova/logs
+
+# upgrade from old version
+if ! [ -f $LOGS/VERSION ]; then
+    rm -rf $LOGS/backtrace.log.?
+fi
+
+if [ -s $LOGS/backtrace.log ]; then
+    for i in 3 2 1; do
+        if [ -f $LOGS/backtrace.log.$i ]; then
+	    mv -f $LOGS/backtrace.log.$i $LOGS/backtrace.log.$(expr $i + 1)
+	fi
+    done
+
+    echo "---- reboot $(cat $LOGS/VERSION) ----" >$LOGS/backtrace.log.1
+    cat $LOGS/backtrace.log >>$LOGS/backtrace.log.1
+fi
+
+/nova/bin/mkissue -v >$LOGS/VERSION
+catlog -fs -n 10 backtrace </dev/null >$LOGS/backtrace.log 2>/dev/null &

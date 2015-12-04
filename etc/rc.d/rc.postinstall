@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ -f /var/pdb/wireless/disabled ]; then
+    # enable wireless package back if we are upgrading from v3 or v4
+    VER=$(cat /nova/logs/VERSION)
+    if [ $(expr match "$VER" v3.) = 3 ] || [ $(expr match "$VER" v4.) = 3 ]; then
+	mkdir -p /ram/pdb/wireless
+	echo "enable" >/ram/pdb/wireless/schedule
+	/nova/bin/installer
+    fi
+fi
+
+/nova/bin/installer --cleanup
+
+for i in $(path --prefix H /etc/rc.d/run.d); do
+    if [ -f $i ]; then
+	$i
+    fi
+done

@@ -1,0 +1,6 @@
+dlog_info '
+  :put USER ACTIVE
+  /user active print
+  :put SYSTEM SCRIPT JOB
+  /system script job print
+'

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+KEYGEN=$(path --file /nova/bin/ssh-keygen)
+
+SSH_PREFIX=/nova/store/ssh
+RSA_KEY="$SSH_PREFIX/ssh_host_rsa_key"
+DSA_KEY="$SSH_PREFIX/ssh_host_dsa_key"
+NEWDIR=0
+
+if [ ! -d "$SSH_PREFIX" ]; then
+    mkdir "$SSH_PREFIX"
+    NEWDIR=1
+    if [ -f /flash/etc/ssh_host_dsa_key ]; then
+        mv /flash/etc/ssh_host_* "$SSH_PREFIX/"
+    fi
+fi
+
+# remove some old symlink
+if [ -h /var/pckg/ssh_host_dsa_key.pub ]; then
+    rm -rf /var/pckg/ssh_host_dsa_key.pub
+fi
+
+# key generation
+$KEYGEN "$RSA_KEY"
+$KEYGEN -d "$DSA_KEY"

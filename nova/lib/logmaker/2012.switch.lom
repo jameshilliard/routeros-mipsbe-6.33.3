@@ -1,0 +1,69 @@
+dlog_info '
+  /interface ethernet {
+    :put "INTERFACE"
+    print
+    print detail
+
+    :put "\nSWITCH"
+    switch print
+
+    :put "\nPORT"
+    switch port print
+
+    :put "\nPORT STATS"
+    switch port print stats
+    /interface ethernet switch port {
+      :foreach i in=[find] do={
+        print stats from=$i
+        :put ""
+      }
+    }
+  }
+'
+
+dlog_info '
+  /interface ethernet switch {
+    :put "\nSWITCH STATS"
+    switch print stats
+    :put "\nHOST"
+    host print detail
+    :put "\nVLAN"
+    vlan print detail
+    :put "\nRULE"
+    rule print detail
+  }
+'
+
+dlog_info '
+  /interface ethernet switch {
+    :put "\nSWITCH STATS"
+    stats print
+
+    :put "\nVLAN"
+    vlan print detail
+
+    :put "\nUNICAST-FDB"
+    unicast-fdb print detail
+
+    :put "\nMULTICAST-FDB"
+    multicast-fdb print detail
+
+    :put "\nRESERVED-FDB"
+    reserved-fdb print detail
+
+    :put "\nINGRESS-VLAN-TRANSLATION"
+    ingress-vlan-translation print detail
+
+    :put "\nEGRESS-VLAN-TRANSLATION"
+    egress-vlan-translation print detail
+
+    :put "\nPORT-ISOLATION"
+    port-isolation print detail
+
+    :put "\nPORT-LEAKAGE"
+    port-leakage print detail
+
+    :put "\nACL"
+    acl print detail
+  }
+'

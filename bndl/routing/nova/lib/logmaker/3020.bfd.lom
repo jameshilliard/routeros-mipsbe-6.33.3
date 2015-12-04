@@ -1,0 +1,6 @@
+dlog_info '
+  :put "NEIGHBORS" 
+  /routing bfd neighbor print detail
+  :put "INTERFACES"
+  /routing bfd interface print detail
+'

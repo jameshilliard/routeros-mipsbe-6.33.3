@@ -1,0 +1,10 @@
+dlog_info '
+  /routing mme {
+    :put "MME"
+    print
+    :put "INTERFACE"
+    interface print status
+    :put "ORIGINATORS"
+    originators print detail
+  }
+'

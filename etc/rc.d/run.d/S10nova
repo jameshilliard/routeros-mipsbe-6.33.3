@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "Starting services..."
+
+/sbin/insmod lcd >/dev/null 2>&1 &&
+echo -n "starting services" 2> /dev/null > /dev/lcd
+
+/sbin/loconf
+/nova/bin/loader </dev/null >/dev/log1 2>&1
+RC=$?
+
+if [ $RC -eq 0 ]; then
+    /nova/bin/starter </dev/null >/dev/log1 2>&1 &
+elif [ $RC -eq 1 ]; then
+     echo
+     echo "Demo license expired!"
+     echo "Please reinstall the router."
+     echo
+     kill -WINCH 1
+     exit 1
+elif [ $RC -eq 2 ]; then
+     echo
+     echo "Fatal error 0x853"
+     echo "Please contact support@mikrotik.com"
+     echo
+     kill -WINCH 1
+     exit 1
+elif [ $RC -eq 3 ]; then
+     echo
+     echo "CHR can run only on x86_64"
+     echo
+     kill -WINCH 1
+     exit 1
+else
+     echo
+     echo "Fatal internal error occurred!"
+     echo "Please reinstall the router."
+     echo
+     kill -WINCH 1
+     exit 1
+fi
+

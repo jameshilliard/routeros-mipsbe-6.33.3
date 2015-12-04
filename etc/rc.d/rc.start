@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "Starting..."
+
+for i in $(path --prefix E /etc/rc.d/run.d); do
+    if [ -f $i ]; then
+        $i
+    fi
+done
+
+/etc/rc.d/rc.sysinit || exit 1
+
+export PATH=$(path --colon /sbin):$(path --colon /bin)
+export LD_LIBRARY_PATH=/rw/lib:$(path --colon /lib)
+
+# disable core files
+ulimit -c 0
+
+# set maximum opened files per process
+ulimit -n 500000
+
+# start syslog deamon
+for i in $(path --prefix S /etc/rc.d/run.d); do
+    if [ -f $i ]; then
+	$i || exit 1
+    fi
+done
+
+exit 0

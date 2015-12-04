@@ -1,0 +1,9 @@
+# /etc/profile: system-wide .profile file for bash(1).
+
+LD_LIBRARY_PATH=$(path --colon /lib)
+PATH=$(path --colon /sbin):$(path --colon /bin)
+PS1="\w>"
+
+export PATH PS1 LD_LIBRARY_PATH
+
+umask 022

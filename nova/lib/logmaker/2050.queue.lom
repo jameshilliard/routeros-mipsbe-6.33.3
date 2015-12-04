@@ -1,0 +1,10 @@
+dlog_info '
+  :put "TYPE"
+  /queue type print
+  :put "QUEUE TREE"
+  /queue tree print
+  :put "SIMPLE QUEUES"
+  /queue simple print
+  :put "QUEUE INTERFACE"
+  /queue interface print
+'

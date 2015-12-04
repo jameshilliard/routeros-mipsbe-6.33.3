@@ -1,0 +1,40 @@
+#!/bin/ash
+
+SUPOUT=$1
+if [ "$SUPOUT" = "" ]; then
+    SUPOUT="supout.rif"
+fi
+
+dlog_export () {
+    if [ -z "$FREEMEM" -o "$FREEMEM" -ge 10 ] ; then
+/nova/bin/info '
+  /export compact hide-sensitive
+'
+    else
+	echo "skipping configuration export"
+    fi
+}
+
+dlog_info () {
+    if [ -z "$FREEMEM" -o "$FREEMEM" -ge 3 ] ; then
+/nova/bin/info "
+  $@
+"
+    else
+	echo "skipping $@"
+    fi
+}
+
+rm -f /var/tmp/supout.rif
+rm -f "/var/pckg/$SUPOUT"
+for i in $(path /nova/lib/logmaker); do
+    if [ -f $i ]; then
+        SEC=${i#*.}
+        . $i | /nova/bin/append /var/tmp/supout.rif ${SEC%.lom}
+        echo -n .
+    fi
+done
+
+mv /var/tmp/supout.rif "/var/pckg/$SUPOUT"
+rm -f /var/tmp/supout.rif
+

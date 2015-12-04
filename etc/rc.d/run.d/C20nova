@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#save console history
+test -f /ram/history.console && mv -f /ram/history.console /nova/store/cchst2
+test -f /ram/userseq.console && mv -f /ram/userseq.console /nova/store/ccusq
+test -f /ram/globals.console && mv -f /ram/globals.console /nova/store/ccenv
+

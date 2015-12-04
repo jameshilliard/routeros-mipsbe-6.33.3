@@ -1,0 +1,16 @@
+dlog_info '
+  /certificate {
+    :put "TRUSTED CERTIFICATES"
+    print detail where trusted
+    :put "CA CERTIFICATES"
+    print detail where authority
+    :put "ALL CERTIFICATES"
+    print detail
+    :put "CRL"
+    crl print detail
+    :put "SCEP SERVER REQUESTS"
+    scep-server requests print detail
+    :put "SCEP RA REQUESTS"
+    scep-server ra print detail
+  }
+'

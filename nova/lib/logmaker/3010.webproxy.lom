@@ -1,0 +1,9 @@
+dlog_info '
+  /ip proxy {
+    print;
+    :put "STATUS"
+    monitor once
+    :put ACCESS
+    access print
+  }
+'

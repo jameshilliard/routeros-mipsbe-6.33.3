@@ -1,0 +1,5 @@
+root::0:
+write::1:
+read::2:
+ip::3:
+nogroup:*:99:

@@ -1,0 +1,4 @@
+dlog_info '
+/ipv6 pool print
+/ipv6 pool used print
+'

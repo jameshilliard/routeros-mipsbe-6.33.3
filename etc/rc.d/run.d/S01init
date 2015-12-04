@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Workaround for routerboard that doesnt have clock,
+# to shut up modprobe.
+
+echo "" >/sys/kernel/uevent_helper
+
+test "$early_shell" = "true" && /bin/bash
+
+#create main net namespace
+: > /var/run/netns/main
+/bin/mount /proc/1/ns/net /var/run/netns/main -o bind
+
+if /nova/bin/restore; then
+    mv /nova/store/ssh /tmp/restore/ > /dev/null 2>&1
+    rm -rf /nova/store/*
+    mv /tmp/restore/* /nova/store
+fi
+
+if [ -d /rw/tmp ]; then rm -rf /rw/tmp/*; fi
+
+if [ -f /nova/bin/diskd ]; then /nova/bin/diskd --init; fi

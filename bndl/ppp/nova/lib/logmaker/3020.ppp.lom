@@ -1,0 +1,8 @@
+dlog_info '/ {
+  :put "\nACTIVE"; ppp active print detail; \
+  :put "\nPPPoE-INTERFACE"; interface pppoe-server print detail; \
+  :put "\nPPTP-INTERFACE"; interface pptp-server print detail; \
+  :put "\nL2TP-INTERFACE"; interface l2tp-server print detail; \
+  :put "\nSSTP-INTERFACE"; interface sstp-server print detail; \
+  :put "\nPPP-OUT"; interface ppp-client print detail; \
+}'

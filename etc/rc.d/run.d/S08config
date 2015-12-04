@@ -1,0 +1,36 @@
+#!/bin/bash
+
+/bin/rm -rf /nova/log/*
+/bin/mkdir /ram/run
+
+[ -x /nova/bin/flash ] && /nova/bin/flash --fetch-flash-config /rw/FLASH_CONFIG
+if [ -f /rw/FLASH_CONFIG ]; then
+    IGNORE_DEFCONF=yes
+    . /nova/lib/reset/reset
+    rm -rf /rw/RESET
+elif [ -f /rw/RESET ]; then
+    /bin/bash /rw/RESET
+    rm -rf /rw/RESET
+fi
+
+#restore console history
+rm -f /nova/store/cchst
+test -f /nova/store/cchst2 && cp /nova/store/cchst2 /ram/history.console
+test -f /nova/store/ccusq && cp /nova/store/ccusq /ram/userseq.console
+test -f /nova/store/ccenv && cp /nova/store/ccenv /ram/globals.console
+
+rm -f /ram/winbox.idx
+for i in $(path --postfix .info /home/web/winbox); do cat $i >>/ram/winbox.idx; done
+
+rm -f /ram/gum.list
+GUMS=$(path --postfix .info /home/web/webfig)
+(for i in $GUMS; do cat $i; done) >/ram/gum.list
+
+# enable panic on out of memory
+echo 2 > /proc/sys/vm/panic_on_oom
+
+# print oopses in sequence
+echo 1 > /sys/module/kernel/parameters/pause_on_oops
+
+# no delay before reboot
+echo -1 > /sys/module/kernel/parameters/panic

@@ -1,0 +1,6 @@
+dlog_info '/ipv6 dhcp-server {
+  :put "SERVER"; print; \
+  :put "BINDINGS"; binding print detail; \
+}; \
+  :put "CLIENT"; /ipv6 dhcp-client print detail; \
+'

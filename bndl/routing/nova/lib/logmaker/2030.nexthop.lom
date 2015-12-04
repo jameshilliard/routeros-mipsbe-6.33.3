@@ -1,0 +1,4 @@
+dlog_info '
+  :put "NEXTHOP" 
+  /ip route nexthop print
+'

@@ -1,0 +1,26 @@
+dlog_info '
+  /mpls forwarding-table {
+    :put "FORWARDING TABLE"
+    print
+  }
+  /mpls local-bindings {
+    :put "LOCAL BINDINGS"
+    print detail
+  }
+  /mpls remote-bindings {
+    :put "REMOTE BINDINGS"
+    print detail
+  }
+  /mpls ldp neighbor {
+    :put "LDP NEIGHBORS"
+    print detail
+  }
+  /interface vpls {
+    :put "VPLS IFACES"
+    print detail
+  }
+  /interface vpls bgp-vpls {
+    :put "BGP VPLS"
+    print detail
+  }
+'

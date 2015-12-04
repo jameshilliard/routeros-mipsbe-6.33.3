@@ -1,0 +1,9 @@
+dlog_info '/system routerboard print'
+dlog_info '/system routerboard {
+  :put "\nBIOS"; bios print; \
+  :put "\nHEALTH"; health print; \
+}'
+dlog_info '/system routerboard {
+  :put "\nSETTINGS"; settings print; \
+  :put "\nUSB"; usb print; \
+}'

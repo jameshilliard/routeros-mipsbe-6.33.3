@@ -1,0 +1,26 @@
+body {
+    font-family: "Trebuchet MS";
+    color:#363636;
+    font-size: 75%;
+}
+hr {
+    border: 1px solid #ccc;
+}
+a:link {
+    color: #3366CC;
+}
+.cont {
+    width: 80%;
+    margin: 20px auto;
+}
+.box {
+    float: left;
+    margin-bottom: 20px;
+}
+.box img {
+    position: relative;
+    left: -30px;
+}
+.box em {
+    color: #888;
+}

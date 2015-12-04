@@ -1,0 +1,92 @@
+#ifndef NOVA_LOGNAMES_H
+#define NOVA_LOGNAMES_H
+
+#ifdef __cplusplus
+namespace log {
+#endif
+// add new names to the end of enum, one per line, or instead of unused
+// AND NEVER DELETE items from here, messes up item ids
+    enum Topic {
+	_BAD_TOPIC,
+	INFO,
+	WARNING,
+	ERROR,
+	CRITICAL,
+	DEBUG,
+	PACKET,
+	ACCOUNT,
+
+	FIREWALL,
+        SCRIPT,
+	SYSTEM,
+	PPP,
+	PPTP,
+	PPPOE,
+	L2TP,
+	ASYNC,
+	DHCP,
+	HOTSPOT,
+	ISDN,
+	IPSEC,
+	SNMP,
+	TELEPHONY,
+	WEB_PROXY,
+	WIRELESS,
+        OSPF,
+	RADIUS,
+	BGP,
+
+        STATE,
+        TIMER,
+
+	RAW,
+
+	READ,
+	WRITE,
+
+	KVM,
+	SSH,
+	SSTP,
+
+	CALC,
+	EVENT,
+	ROUTE,
+	WATCHDOG,
+	MANAGER,
+
+	DDNS,
+	RIP,
+	UPS,
+	E_MAIL,
+	RADVD,
+	SERTCP,
+	MME,
+	OVPN,
+	PIM,
+	NTP,
+	GSM,
+	BACKUP,
+
+	STORE,
+	IGMP_PROXY,
+	TFTP,
+	ISCSI,
+        MPLS,
+        LDP,
+        RSVP,
+	SIMULATOR,
+	BFD,
+	INTERFACE,
+	VRRP,
+        SMB,
+        CERTIFICATE,
+	DNS,
+        LTE,
+	UPNP,
+	CAPS,
+    };
+#ifdef __cplusplus
+}
+#endif
+
+#endif

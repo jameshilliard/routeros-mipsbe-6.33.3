@@ -1,0 +1,8 @@
+dlog_info '
+  /ip pool {
+    :put POOLS
+    print
+    :put USED
+    used print
+  }
+'

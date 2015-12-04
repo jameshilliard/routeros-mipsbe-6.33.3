@@ -1,0 +1,61 @@
+vfat:	fat nls_base
+panics:	flash
+ohci-hcd:	usbcore
+poeupdate:	flash
+poe_simple:	flash
+music_switch:	phy_amcc_qt2025 phy_helper switch
+cdc_ether:	usbcore usbnet
+ag7240:	switch packet_hook phy_helper sram
+icplus:	phy_helper switch
+phy_amcc_qt2025:	phy_helper
+aths16:	phy_helper switch
+switch:	packet_hook phy_helper
+traffic_gen:	packet_hook
+g_serial:	ath_udc usb-common nls_base
+usb-storage:	scsi_mod usbcore
+usbhid:	hid usbcore
+fat:	nls_base
+usbnet:	usbcore
+pl2303:	usbcore usbserial
+mmc_block:	mmc_core
+net-back:	packet_hook
+sierra_net:	usbcore usbnet
+hso:	rfkill usbcore
+asix:	usbcore usbnet
+mcs7830:	usbcore usbnet
+rndis_host:	usbcore cdc_ether usbnet
+mesh:	packet_hook
+option:	usbcore usbserial usb_wwan
+mmc_spi:	mmc_core
+qcserial:	usbcore usbserial usb_wwan
+voltage:	flash
+ehci-hcd:	usbcore
+usbserial:	usbcore
+cp210x:	usbcore usbserial
+sierra:	usbcore usbserial
+packet_hook:	nf_conntrack
+amazon:	switch
+g_ether:	ath_udc usb-common nls_base
+ext3:	jbd
+nls_cp437:	nls_base
+nls_iso8859-1:	nls_base
+phy_ti_tlk10232:	phy_helper
+lcd:	flash
+cdc-acm:	usbcore
+ath8327:	phy_helper switch
+grebe:	packet_hook
+g_mass_storage:	ath_udc usb-common nls_base
+sd_mod:	scsi_mod
+usb_wwan:	usbcore usbserial
+ftdi_sio:	usbcore usbserial
+lte_gct_eth:	flash usbcore
+ag7100:	switch packet_hook
+rb:	flash
+music_gmac:	switch packet_hook
+romon:	packet_hook
+imq:	cls_fw cls_linear
+ts:	flash
+lte_gct_tty:	usbcore
+ipw:	usbcore usbserial usb_wwan
+usbcore:	usb-common nls_base
+poe_v2:	flash

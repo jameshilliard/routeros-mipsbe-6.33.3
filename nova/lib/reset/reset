@@ -1,0 +1,53 @@
+if [ -f /nova/store/autorun.scr ]; then
+    mv /nova/store/autorun.scr /rw
+fi
+
+if [ "$KEEP_USERS" = "yes" ] ; then
+    mkdir /ram/reset
+    cp /nova/store/group.idx /ram/reset/
+    cp /nova/store/user.idx /ram/reset/
+    cp /nova/store/user/aaa.idx /ram/reset/
+    cp /nova/store/group.dat /ram/reset/
+    cp /nova/store/user.dat /ram/reset/
+    cp /nova/store/user/aaa.dat /ram/reset/
+    if [ -f /nova/store/ssh-keys.idx ]; then
+       cp /nova/store/ssh-keys.* /ram/reset
+    fi
+    if [ -f /nova/store/ssh-private-keys.idx ]; then
+       cp /nova/store/ssh-private-keys.* /ram/reset
+    fi
+    rm -rf /nova/store/*
+    mkdir /nova/store/user
+    cp /ram/reset/group.idx /nova/store/
+    cp /ram/reset/user.idx /nova/store/
+    cp /ram/reset/aaa.idx /nova/store/user/
+    cp /ram/reset/group.dat /nova/store/
+    cp /ram/reset/user.dat /nova/store/
+    cp /ram/reset/aaa.dat /nova/store/user/
+    if [ -f /ram/reset/ssh-keys.idx ]; then
+       cp /ram/reset/ssh-keys.* /nova/store
+    fi
+    if [ -f /ram/reset/ssh-private-keys.idx ]; then
+       cp /ram/reset/ssh-private-keys.* /nova/store
+    fi
+    rm -rf /ram/reset
+else
+    rm -rf /nova/store/*
+fi
+rm -rf /rw/vm/*
+rm -rf /rw/cm/*
+
+if [ -f /rw/autorun.scr ]; then
+    mv /rw/autorun.scr /nova/store/
+fi
+
+if [ "$IGNORE_DEFCONF" = "yes" ] ; then
+    :
+else
+    if [ -f /nova/store/autorun.scr ]; then
+	mv /nova/store/autorun.scr /rw;
+    else
+	touch /rw/DEFCONF
+    fi
+fi
+

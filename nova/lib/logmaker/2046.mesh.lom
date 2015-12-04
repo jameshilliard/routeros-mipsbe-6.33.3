@@ -1,0 +1,10 @@
+dlog_info '
+  /interface mesh {
+    :put MESH
+    print detail
+    :put PORT
+    port print stats
+    :put FDB
+    fdb print detail
+  }
+'

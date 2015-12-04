@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ "$GPIO_RESET" = "yes" ]; then
+    if ! [ -f /rw/GPIO_RESET_DISABLED ]; then
+	echo Resetting system configuration...
+        . /nova/lib/reset/reset
+    else
+	echo Jumper reset disabled
+    fi
+fi
+

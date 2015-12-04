@@ -1,0 +1,48 @@
+#!/bin/bash
+
+defdir=/nova/lib/defconf
+defcf=/rw/defconf-custom
+cfget=$defdir/get-custom-defconf
+
+if [ ! -f $defcf ] && [ -f $cfget ]; then
+    usleep 3000000
+    cfget_fixed=/rw/get-custom-defconf-$(/nova/bin/mkissue -vv)
+    if [ -f $cfget_fixed ]; then cfget=$cfget_fixed; fi
+    /nova/bin/sendmsg 0xfe0000 48
+    /nova/bin/info - < $cfget > /ram/defconf-custom
+    if [ $? -eq 0 ] && [ -s /ram/defconf-custom ]; then
+	cp /ram/defconf-custom $defcf
+    fi
+    rm -f /ram/defconf-custom
+fi
+
+if [ -f /rw/FLASH_CONFIG ]; then
+    usleep 3000000
+    /nova/bin/sendmsg 0xfe0000 48
+    (/nova/bin/unexpak /rw/FLASH_CONFIG /ram/FLASH_CONFIG; rm -f /rw/FLASH_CONFIG; /bin/gosh /ram/FLASH_CONFIG; rm -f /ram/FLASH_CONFIG) &
+    rm -f /rw/RUN_AFTER_RESET
+    rm -f /rw/DEFCONF
+    rm -f /rw/DEFCONF_CONFIRM
+    if [ -f /rw/autorun.scr ]; then mv /rw/autorun.scr /nova/store; fi
+elif [ -f /rw/RUN_AFTER_RESET ]; then
+    usleep 3000000
+    /nova/bin/sendmsg 0xfe0000 48
+    rm -f /rw/_RUN_AFTER_RESET
+    mv /rw/RUN_AFTER_RESET /rw/_RUN_AFTER_RESET
+    (/bin/gosh /rw/_RUN_AFTER_RESET; rm /rw/_RUN_AFTER_RESET) &
+elif [ -f /rw/autorun.scr ]; then
+    usleep 3000000
+    /nova/bin/sendmsg 0xfe0000 48
+    /nova/bin/autoupdate
+    (/bin/gosh /rw/autorun.scr; mv /rw/autorun.scr /nova/store) &
+elif [ -f /rw/DEFCONF ]; then
+    usleep 3000000
+    /nova/bin/sendmsg 0xfe0000 48
+    if [ ! -s /rw/DEFCONF ]; then
+	/nova/lib/defconf/choose >> /rw/DEFCONF
+    fi
+    /nova/bin/autoupdate
+    defcf=$(cat /rw/DEFCONF)
+    (action=apply /bin/gosh $defcf; cp $defcf /rw/DEFCONF_CONFIRM; rm /rw/DEFCONF) &
+fi
+

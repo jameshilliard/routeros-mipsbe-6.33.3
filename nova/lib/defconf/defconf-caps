@@ -1,0 +1,50 @@
+#-------------------------------------------------------------------------------
+# Note: script will not execute at all (will throw a syntax error) if
+#       dhcp or wireless-fp packages are not installed
+#-------------------------------------------------------------------------------
+
+#| CAP configuration
+#|   'ether1' is considered a management port with DHCP client configured
+#|
+#|   All other ethernet interfaces are bridged.
+#|   'wlan1' is set to be managed by CAPsMAN
+
+# management port name
+:global manPort "ether1";
+# bridge port name
+:global brName "bridgeLocal";
+
+:global logPref "defconf:";
+
+# wait for ethernet interfaces
+:while ([/interface ethernet find] = "") do={ :delay 1s; }
+
+# try to add dhcp client on management port (may fail if already exist)
+:do {
+  /ip dhcp-client add interface=$manPort disabled=no
+} on-error={ :log warning "$logPref unable to add dhcp client";}
+
+:local macSet 0;
+:local tmpMac "";
+
+:foreach k in=[/interface ethernet find] do={
+#  first ethernet is found; add bridge and set mac address of the ethernet port
+  :if ($macSet = 0) do={
+    :set tmpMac [/interface ethernet get $k mac-address];
+    /interface bridge add name=$brName auto-mac=no admin-mac=$tmpMac;
+    :set macSet 1;
+  }
+# add bridge ports
+  :if ([/interface ethernet get $k name] != $manPort) do={
+    /interface bridge port add bridge=$brName interface=$k
+  }
+}
+
+
+# try to configure caps (may fail if for example specified interfaces are missing)
+# TODO: loop through all wireless interfaces
+:do {
+  /interface wireless cap
+    set enabled=yes interfaces=wlan1 discovery-interfaces=$manPort bridge=$brName
+} on-error={ :log warning "$logPref unable to configure caps";}
+

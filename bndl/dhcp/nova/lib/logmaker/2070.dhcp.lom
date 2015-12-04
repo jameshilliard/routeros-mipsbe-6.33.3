@@ -1,0 +1,7 @@
+dlog_info '/ip dhcp-server {
+  :put "DHCP-SERVER"; print; \
+  :put "LEASE"; lease print detail; \
+  :put "ALERT"; alert print detail; \
+}; \
+  :put "DHCP-CLIENT"; /ip dhcp-client print detail; \
+'

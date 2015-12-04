@@ -1,0 +1,95 @@
+#!/bin/bash
+#
+# /etc/rc.d/rc.sysinit - run once at boot time
+#
+
+export TERM=linux
+
+# Set the hostname.
+/bin/hostname localhost
+
+mkdir /dev/pts
+/bin/mount -t devpts devpts /dev/pts
+/bin/mount -t sysfs sysfs /sys
+/bin/mount -t debugfs debugfs /sys/kernel/debug 2> /dev/null
+
+/sbin/insmod flash >/dev/null 2>&1
+
+if [ -x /sbin/nandfix ]; then
+    /sbin/nandfix -sid
+    if [ $? -eq 33 ]; then
+	# reboot
+	kill -INT 1
+	echo "finishing upgrade"
+	exit 1
+    fi
+fi
+
+if [ "$bootimage" -eq 1 ]; then
+    rm -f /flash/boot/kernel
+    if ! ln /var/pdb/system/image /flash/bootimage 2>/dev/null; then
+	ln /var/pdb/routeros-*/image /flash/bootimage 2>/dev/null
+    fi
+fi
+
+if [ -f /flash/UPGRADED ]; then
+    . /etc/rc.d/rc.prepare
+    rm /flash/UPGRADED
+fi
+
+if [ -f /flash/PCKGS_CHANGED ]; then
+    rm -f /rw/defconf-custom
+    rm /flash/PCKGS_CHANGED
+fi
+
+# Clean up
+/bin/rm -rf /flash/mnt/*
+/bin/rm -f /var/log/* /var/run/*
+/bin/rm -f /var/lock/*
+: >/var/run/utmp
+
+/bin/mkdir -p /ram/netns
+ln -sf /ram/netns /rw/run/netns
+
+#make device nodes that get modified
+/bin/mknod /ram/ptmx c 5 2
+
+# Turn on routing
+echo "1" >/proc/sys/net/ipv4/ip_forward
+
+# Do not remove all ips from interface when primary is deleted
+echo "1" >/proc/sys/net/ipv4/conf/all/promote_secondaries
+
+# VRRP
+echo "1" >/proc/sys/net/ipv4/conf/default/arp_ignore
+echo "2" >/proc/sys/net/ipv4/conf/default/arp_announce
+
+# GRE keepalives
+echo "1" >/proc/sys/net/ipv4/conf/all/accept_local
+
+# enable first half of RPS
+if [ -f /proc/sys/net/core/rps_sock_flow_entries ]; then
+    echo "8192" >/proc/sys/net/core/rps_sock_flow_entries
+fi
+
+# Set maximum opened file limit
+echo "500000" >/proc/sys/fs/file-max
+
+# Set maximum join limit
+echo "10000" >/proc/sys/net/ipv4/igmp_max_memberships
+# Set maximum memory for socket options
+echo "1024000" >/proc/sys/net/core/optmem_max
+
+# Don't allow xfrm lookup to block
+echo "1" >/proc/sys/net/core/xfrm_larval_drop
+
+# allow 10 icmp error respones per second per host
+echo "10" >/proc/sys/net/ipv4/icmp_ratelimit
+
+# reduce max write cache size for disks to 512KB from default 20% of RAM
+echo 131072 > /proc/sys/vm/dirty_background_bytes
+echo 524288 > /proc/sys/vm/dirty_bytes
+
+/nova/bin/mkissue
+
+exit 0

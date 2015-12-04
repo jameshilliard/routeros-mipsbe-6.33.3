@@ -1,0 +1,6 @@
+dlog_info '
+  :put "QUEUE TREE"
+  /queue tree print stats
+  :put "SIMPLE QUEUES"
+  /queue simple print stats
+'

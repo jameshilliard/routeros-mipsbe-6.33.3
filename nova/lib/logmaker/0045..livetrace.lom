@@ -1,0 +1,5 @@
+catlog -t 1000 -o -x 8&
+cpid1=$!
+/nova/bin/sendmsg 4 1
+(sleep 1s; kill $cpid1)&
+wait $cpid1

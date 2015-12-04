@@ -1,0 +1,98 @@
+#!/bin/bash
+
+rm -f /flash/bin/mlogin /flash/bin/bash_login /flash/bin/bash
+
+if [ -f /sbin/diskman ]; then /sbin/diskman --to-ext3; fi
+
+if [ ! -d /rw/store ]; then
+    if [ -d /flash/nova/store ]; then mv /flash/nova/store /rw; fi
+fi
+mkdir -p /rw/store
+rm -f /rw/store/store
+
+if [ ! -f /var/pdb/system/image ] && [ ! -f /var/pdb/routeros*/image ]; then
+    /nova/bin/installer --reinstall
+    # check whether v5 had ipv6 enabled & enable it back
+    if [ -f /rw/store/net/addrs6.dat ]; then
+	mkdir -p /ram/pdb/ipv6
+	echo "enable" >/ram/pdb/ipv6/schedule
+        /nova/bin/installer
+    fi
+    kill -SIGUSR2 1
+    while [ ! -f /ram/mounted ]; do true; done
+fi
+
+if [ ! -d /rw/logs ]; then
+    if [ -d /flash/nova/logs ]; then mv /flash/nova/logs /rw; fi
+fi
+mkdir -p /rw/logs
+
+rm -rf /flash/tmp
+mkdir -p /rw/tmp
+rm -rf /rw/tmp/*
+
+# clear panic buffer from flash if had crash in previous boot with other version
+/nova/bin/panicsl start
+
+rm -f /nova/logs/startup.catlog
+rm -f /nova/logs/panic?.log
+rm -f /nova/logs/backtrace.log*
+
+rm -rf /rw/nova /rw/lib /rw/etc
+
+if [ ! -d /rw/run ]; then
+    if [ -d /flash/var/run ]; then mv /flash/var/run /rw; fi
+fi
+mkdir -p /rw/run
+
+if [ ! -d /rw/pckg ]; then
+    if [ -d /flash/var/pckg ]; then mv /flash/var/pckg /rw; fi
+fi
+mkdir -p /rw/pckg
+
+mkdir -p /rw/disk/skins
+chmod a+x /rw/disk/skins
+
+if [ ! -d /rw/cm ]; then
+    if [ -d /flash/var/cm ]; then mv /flash/var/cm /rw; fi
+fi
+mkdir -p /rw/cm
+
+if [ ! -d /rw/vstore ]; then
+    if [ -d /flash/var/store ]; then mv /flash/var/store /rw/vstore; fi
+fi
+mkdir -p /rw/vstore
+
+if [ -d /flash/vm ]; then
+    if [ -d /rw/vm ]; then rm -rf /flash/vm; else mv /flash/vm /rw; fi
+fi
+
+rm -rf /flash/dev/log
+
+# remove old .lock files
+rm -rf $(find /rw/store/ -name '*.lock')
+
+# remove old dirs
+rm -rf /flash/sbin /flash/lib /flash/old /flash/usr /flash/nova/bin
+rm -rf /flash/proc /flash/ram /flash/root /flash/sys /flash/x
+rm -rf /flash/home/web/hotspot
+# need for old version
+mkdir -p /flash/nova
+if [ ! -e /flash/nova/store ]; then ln -sf /rw/store /flash/nova/store; fi
+
+# remove old stuff
+rm -rf /rw/branded
+
+# set initial hostname
+if [ ! -f /flash/etc/ident ]; then
+    mkdir -p /flash/etc
+    echo -n $(cat /nova/etc/logo) >>/flash/etc/ident
+fi
+
+mkdir -p /flash/boot
+echo "RouterOS" $(/nova/bin/mkissue -v) >/flash/boot/VERSION
+
+if [ -f /flash/autorun.scr ]; then mv -f /flash/autorun.scr /rw; fi
+rm -f /rw/defconf-custom
+
+echo >/flash/UPGRADEBOOTER

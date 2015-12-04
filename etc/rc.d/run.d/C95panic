@@ -1,0 +1,2 @@
+#!/bin/bash
+/nova/bin/panicsl stop >/dev/log241 2>&1

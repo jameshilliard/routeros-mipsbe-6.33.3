@@ -1,0 +1,12 @@
+dlog_info '/ip hotspot {
+  print detail; \
+  :put "\nPROFILE"; profile print; \
+  :put "\nIP_BINDING"; ip-binding print; \
+  :put "\nHOST"; host print detail; \
+  :put "\nHOST_STATUS"; host print status; \
+  :put "\nACTIVE"; active print detail; \
+  :put "\nACTIVE_STATS"; active print stats; \
+  :put "\nWALLED_GARDEN"; walled-garden print detail; \
+  :put "\nWALLED_GARDEN_IP"; walled-garden ip print detail; \
+  :put "\nCOOKIE"; cookie print; \
+}'

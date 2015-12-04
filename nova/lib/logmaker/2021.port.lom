@@ -1,0 +1,4 @@
+dlog_info '
+  /port print
+  /port firmware print
+'

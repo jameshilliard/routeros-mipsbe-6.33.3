@@ -1,0 +1,7 @@
+if [ -f /nova/logs/panic1.log ]; then
+    for i in /nova/logs/panic?.log; do
+	echo "--- $i"
+	cat $i
+	echo "--- rebooted"
+    done
+fi

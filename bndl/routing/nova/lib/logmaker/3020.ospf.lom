@@ -1,0 +1,16 @@
+dlog_info '
+  :put "NEIGHBORS" 
+  /routing ospf neighbor print
+  :put "INTERFACES"
+  /routing ospf interface print status
+  :put "AREAS"
+  /routing ospf area print
+  :put "ROUTES"
+  /routing ospf route print
+  :put "ROUTERS"
+  /routing ospf area-border-router print
+  :put "AS BORDER ROUTERS"
+  /routing ospf as-border-router print
+  :put "LSA"
+  /routing ospf lsa print detail
+'

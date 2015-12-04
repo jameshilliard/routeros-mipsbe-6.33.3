@@ -1,0 +1,8 @@
+dlog_info '
+  :put ROUTE
+  if ([/ip route print count-only] < 1000) do { /ip route print detail }
+  :put RULE
+  /ip route rule print detail
+  :put CACHE
+  /ip route cache print
+'

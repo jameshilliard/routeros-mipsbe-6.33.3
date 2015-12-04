@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ "$1" = "-w" ]; then exit; fi
+
+kill -WINCH 1
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+defdir=/rw
+defcf=$defdir/defconf-custom
+defcf_caps=/nova/lib/defconf/defconf-caps
+
+if [ "$RESET_MODE" = "caps" ]; then
+    echo $defcf_caps
+elif [ -f $defcf ] ; then
+    echo $defcf
+else
+    echo /nova/lib/defconf/defconf
+fi
+

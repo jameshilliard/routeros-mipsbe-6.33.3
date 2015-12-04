@@ -1,0 +1,10 @@
+dlog_info '
+  :put "LCD GENERAL SETTINGS"
+  /lcd print
+  :put "LCD INTERFACES"
+  /lcd interface print
+  :put "LCD PAGES"
+  /lcd interface page print
+  :put "LCD SCREENS"
+  /lcd screen print
+'

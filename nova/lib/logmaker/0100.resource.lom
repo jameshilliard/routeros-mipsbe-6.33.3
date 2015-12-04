@@ -1,0 +1,13 @@
+dlog_info '
+  /system resource print
+  :put "CLOCK"
+  /system clock print
+  :put "IRQs"
+  /system resource irq print
+'
+echo "SYSTEM"
+uname -a
+echo "MEMORY"
+cat /proc/meminfo
+echo CPU
+cat /proc/cpuinfo

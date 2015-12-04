@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ -f /sbin/nandfix ] && [ ! -d /rw/pckg/.images ]; then
+    /sbin/nandfix -eb >/dev/null 2>&1
+fi

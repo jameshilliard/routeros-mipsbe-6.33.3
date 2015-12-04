@@ -1,0 +1,36 @@
+dlog_info '
+  /interface {
+    wireless {
+      :put "INTERFACE WIRELESS"
+      print advanced
+      :put "INTERFACE WIRELESS MONITOR"
+      :foreach i in=[find] do={:put " = = = $[get $i name] = = ="; monitor $i once; :put ""}
+      :put "INTERFACE WIRELESS REGISTRATION-TABLE"
+      registration-table print stats
+      :put "INTERFACE WIRELESS ACCESS-LIST"
+      access-list print
+      :put "INTERFACE WIRELESS WDS"
+      wds print detail
+      :put "INTERFACE WIRELESS NSTREME"
+      nstreme print detail
+      :put "INTERFACE WIRELESS NSTREME-DUAL"
+      nstreme-dual print detail
+      :put "INTERFACE WIRELESS NSTREME-DUAL ONCE"
+      nstreme-dual monitor [/interface wireless nstreme-dual find] once
+      :put "CAP"
+      cap print
+    }
+  }
+'
+dlog_info '
+  /caps-man {
+    :put "CAPS-MAN INTERFACE"
+    interface print detail
+    :put "CAPS-MAN REMOTE-CAP"
+    remote-cap print detail
+    :put "CAPS-MAN RADIO"
+    radio print detail
+    :put "CAPS-MAN REGISTRATION-TABLE"
+    registration-table print stats
+  }
+'

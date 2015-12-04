@@ -1,0 +1,10 @@
+if [ -s /nova/logs/backtrace.log ]; then
+    echo "---- current $(cat /nova/logs/VERSION) ----"
+    cat /nova/logs/backtrace.log
+fi
+
+if [ -f /nova/logs/backtrace.log.1 ]; then
+    for i in /nova/logs/backtrace.log.*; do
+	cat $i
+    done
+fi

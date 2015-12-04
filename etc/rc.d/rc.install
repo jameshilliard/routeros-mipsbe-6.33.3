@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# /nova/bin/keyman --find-key
+
+/nova/bin/installer --level $(/nova/bin/keyman --level)
+

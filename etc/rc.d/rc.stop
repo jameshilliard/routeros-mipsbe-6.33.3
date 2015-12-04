@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# rc.halt && rc.reboot
+
+export PATH=/sbin:/bin:$(path --colon /sbin):$(path --colon /bin):/flash/sbin
+export LD_LIBRARY_PATH=$(path --colon /lib):/flash/lib/
+
+# shut down serial ports & turn on XON/XOFF flow controll
+/nova/bin/sendmsg shutdown 52
+
+if [ "$1" = "reboot" ]; then
+    echo -e "\r\n\nRebooting...\r"
+else
+    echo -e "\r\n\nShutting down...\r"
+fi
+
+# start kill scripts
+for i in $(path --prefix K /etc/rc.d/run.d); do
+    if [ -f $i ]; then
+	$i
+    fi
+done
+
+if [ "$1" = "reboot" ]; then
+    echo -n "rebooting" 2> /dev/null > /dev/lcd
+else
+    echo -n "shutting down" 2> /dev/null > /dev/lcd
+fi
+
+kill -TERM -1
+usleep 100000
+kill -KILL -1
+usleep 50000
+
+# turn off serial port flow control, in case nobody listens to us
+/sbin/noflowctrl
+
+# shutdown all interfaces
+if [ -f /sbin/shif ]; then /sbin/shif; fi
+
+# start cleanup scripts
+for i in $(path --prefix C /etc/rc.d/run.d); do
+    if [ -f $i ]; then
+	$i
+    fi
+done
+
+# unmount all secondary disks
+if [ -f /nova/bin/diskd ]; then /nova/bin/diskd --shutdown; fi
+
+/etc/rc.d/rc.install
+/etc/rc.d/rc.postinstall
+
+kill -PIPE 1
+while [ -f /ram/mounted ]; do true; done
+
+for i in $(path --prefix R /etc/rc.d/run.d); do
+    $i >/dev/null 2>&1
+done
+
+if [ "$1" != "reboot" ]; then
+    echo -n "it is safe to power off" 2> /dev/null > /dev/lcd
+fi
+
+# for compatability with v2.7 (to be able upgrade from there)
+case "$1" in
+    rc.halt)
+	/old/system/halt -d
+	;;
+    rc.reboot)
+	/old/system/reboot -d
+	;;
+esac

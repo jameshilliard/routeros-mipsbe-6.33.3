@@ -1,0 +1,5 @@
+if [ -z "$AUTOLOG" ]; then
+	/nova/bin/pckgchecker
+else
+	echo skipping package check
+fi

@@ -1,0 +1,14 @@
+dlog_info '
+  /interface {
+    :put "INTERFACE"
+    print
+    print stats
+    print stats-detail
+  }
+
+  :put VRRP
+  /interface vrrp print
+  
+  :put LTE
+  /interface lte print
+'

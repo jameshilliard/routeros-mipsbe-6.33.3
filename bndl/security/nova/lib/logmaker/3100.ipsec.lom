@@ -1,0 +1,16 @@
+dlog_info '
+:put "PROPOSAL"
+/ip ipsec proposal print detail
+:put "PEER CONFIG"
+/ip ipsec peer print detail
+:put "POLICY"
+/ip ipsec policy print detail
+:put "REMOTE PEERS"
+/ip ipsec remote-peers print
+:put "INSTALLED SA"
+/ip ipsec installed-sa print
+:put "STATISTICS"
+/ip ipsec statistics print
+'
+/ram/pckg/security/nova/bin/racoon --dump-kernel-policies
+

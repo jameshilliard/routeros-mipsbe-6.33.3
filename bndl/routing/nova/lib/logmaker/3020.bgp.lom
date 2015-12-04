@@ -1,0 +1,6 @@
+dlog_info '
+  :put "BGP PEERS"
+  /routing bgp peer print status
+  :put "VPNv4 ROUTES"
+  /routing bgp vpnv4-route print detail
+'

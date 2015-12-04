@@ -1,0 +1,5 @@
+dlog_info '
+  /interface ethernet poe
+  print
+  monitor [find] once
+'

@@ -1,0 +1,19 @@
+dlog_info '
+  /interface ethernet {
+    :put "\nINTERFACE ETHERNET"
+    print
+    print detail
+    :foreach i in=[find] do={
+      :put " = = = $[get $i name] = = ="
+      monitor $i once
+      :put ""
+    }
+
+    :put "\nINTERFACE ETHERNET STATS"
+    print stats
+    :foreach i in=[find] do={
+      print stats from=$i
+      :put ""
+    }
+  }
+'
